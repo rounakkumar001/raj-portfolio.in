@@ -1,0 +1,22 @@
+@keyframes moveRight {
+    0% { left: 0; }
+    50% { left: 100%; }
+    100% { left: 0; }
+}
+
+@keyframes moveLeft {
+    0% { left: 0; }
+    50% { left: -100%; }
+    100% { left: 0; }
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: moveRight 4s infinite alternate;
+}
+
+.arrow:hover {
+    animation: moveLeft 4s infinite alternate;
+}
