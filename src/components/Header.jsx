@@ -31,11 +31,16 @@ const Header = () => {
             </Box>
             <Box>
                 <Button endIcon={<FileDownloadOutlined />} onClick={onDownload} size='small' variant='contained' sx={{ marginRight: 1, boxShadow: 'none', background: '#FC6736', fontWeight: 'bold', '&:hover': { background: '#FC6736' } }}>Download CV</Button>
-                <Button size='small' variant='outlined' sx={{
-                    boxShadow: 'none', borderColor: '#0C2D57', color: '#0C2D57', fontWeight: 'bold', '&:hover': {
-                        borderColor: '#0C2D57'
-                    }
-                }}>Contact me</Button>
+                <Button size='small'
+                    onClick={() => {
+                        const contactEl = document.getElementById('contact');
+                        if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    variant='outlined' sx={{
+                        boxShadow: 'none', borderColor: '#0C2D57', color: '#0C2D57', fontWeight: 'bold', '&:hover': {
+                            borderColor: '#0C2D57'
+                        }
+                    }}>Contact me</Button>
             </Box>
             {/* <Grid container>
                 <Grid item md={4}>

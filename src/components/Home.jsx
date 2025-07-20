@@ -1,8 +1,6 @@
 import React from 'react'
-import { Box, Grid, Typography, styled } from '@mui/material'
-import { FacebookRounded, LinkedIn } from '@mui/icons-material'
+import { Box, styled, useTheme, useMediaQuery } from '@mui/material'
 import { ReactTyped } from "react-typed";
-import { keyframes } from '@emotion/react';
 import Lottie from 'lottie-react'
 
 import fb from '../img/fb.png'
@@ -13,117 +11,164 @@ import bf from '../img/butterfly.gif'
 import bubble from '../img/babble.json'
 import dp from '../img/cutee.png'
 
-const spin = keyframes`
-    0% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-    100% {
-        transform: translateY(4px);
-    }
-`;
-
-
 const Container = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '400px',
-    marginTop: '3.5rem'
-}))
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: 400,
+  position: 'relative',
+  marginTop: '5rem',
+  [theme.breakpoints.down('md')]: {
+    minHeight: 340,
+    marginTop: '4rem',
+  },
+  [theme.breakpoints.down('sm')]: {
+    minHeight: 260,
+    marginTop: '5rem', // 2rem more on mobile
+  },
+}));
+
 
 const Home = () => {
-    return (
-        <Container>
-            {/* <Box sx={{ position: 'relative' }}>
-                <img src={bf} alt="" style={{ position: 'absolute', left: '0px' }} />
-            </Box> */}
-            <img src={bf} alt="" style={{ position: 'absolute', top: 60 }} />
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
-            <Lottie animationData={bubble} loop={true} style={{ width: 200, position: 'absolute', top: 90, zIndex: -1 }} />
+  // Responsive sizes
+  const avatarSize = isMobile ? 180 : isTablet ? 180 : 180;
+  const bubbleWidth = isMobile ? 200 : isTablet ? 200 : 200;
+  const butterflySize = isMobile ? 200 : isTablet ? 200 : 220;
 
-            <Box mb={5} sx={{ width: 180, height: 180, overflow: 'hidden' }}>
-                <img
-                    src={dp}
-                    alt=""
-                    width={'100%'}
-                    height={'100%'}
-                />
-            </Box>
+  return (
+    <Container>
+      {/* Bubble Lottie - BEHIND avatar (zIndex 0) */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: '50%',
+          width: bubbleWidth,
+          transform: `translate(-50%, ${isMobile ? 10 : 30}px)`,
+          zIndex: 0,
+          pointerEvents: 'none'
+        }}
+      >
+        <Lottie animationData={bubble} loop style={{ width: '100%' }} />
+      </Box>
 
-            {/* Hello there! I'm John Doe, a passionate web developer based in San Francisco. With a keen eye for detail and a love for problem-solving, I specialize in crafting responsive and user-friendly websites that leave a lasting impression. Over the past 5 years, I've had the privilege of collaborating with clients from diverse industries, bringing their visions to life through innovative design and cutting-edge technology. Whether you're a startup looking to establish your online presence or a established business aiming to enhance your digital footprint, I'm here to turn your ideas into reality. Let's build something incredible together! */}
+      {/* Avatar + Butterfly */}
+      <Box
+        mb={isMobile ? 2 : 5}
+        sx={{
+          width: avatarSize,
+          height: avatarSize,
+          borderRadius: '50%',
+          overflow: 'hidden',
+          zIndex: 1,
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto'
+        }}
+      >
+        {/* Butterfly - at the head of avatar, always centered */}
+        <Box
+          sx={{
+            position: 'absolute',
+            left: '50%',
+            top: `-${butterflySize * 0.40}px`,
+            transform: 'translateX(-50%)',
+            zIndex: 3,
+            width: butterflySize,
+            height: butterflySize,
+            pointerEvents: 'none'
+          }}
+        >
+          <img src={bf} alt="Butterfly" width="100%" height="100%" />
+        </Box>
+        {/* Avatar */}
+        <img
+          src={dp}
+          alt=""
+          width={'100%'}
+          height={'100%'}
+          style={{ display: 'block', borderRadius: '50%' }}
+        />
+      </Box>
 
+      {/* Greeting text */}
+      <Box sx={{
+        fontSize: isMobile ? '1rem' : isTablet ? '1.12rem' : '1.3rem',
+        textShadow: '1px 1px 2px #FFB0B0',
+        textAlign: 'center',
+        width: '100%',
+        mt: 2
+      }}>
+        <ReactTyped
+          strings={[
+            `<span style='color:#FC6736;font-weight:bold'> Hello there! I'm </span> <span style='font-size:${isMobile ? 14 : 22}px; font-weight:bold; color:#0C2D57'>Raj Nandani Singh</span>,`
+          ]}
+          typeSpeed={40}
+        />
+      </Box>
 
-            <Box sx={{
-                // fontWeight : 'bold'
-                fontSize: '1.3rem',
-                textShadow: '1px 1px 2px #FFB0B0'
-            }}>
+      {/* Typed Roles */}
+      <Box sx={{
+        fontSize: isMobile ? '0.98rem' : isTablet ? '1.1rem' : '1.3rem',
+        fontFamily: 'monospace',
+        mt: isMobile ? '5px' : '10px',
+        textAlign: 'center',
+        padding : '0px'
+      }}>
+        <span>I'm </span>
+        <ReactTyped
+          strings={[
+            "<span style='font-weight:bold;color:#FC6736'>Programmer!</span>",
+            "<span style='font-weight:bold;color:#FC6736'>Web developer!</span>",
+            "<span style='font-weight:bold;color:#FC6736'>Designer!</span>",
+            "<span style='font-weight:bold;color:#FC6736'>Database Engineer!</span>"
+          ]}
+          typeSpeed={110}
+          backSpeed={40}
+          loop
+        />
+      </Box>
 
-                <ReactTyped strings={["<span style='color : #FC6736; font-weight : bold'> Hello there! I'm </span> <span style='font-size: 24px; font-weight : bold; color : #0C2D57 '>Raj Nandani Singh</span>,"]} typeSpeed={40} />
-            </Box>
+      {/* Short Bio */}
+      <Box sx={{
+        fontSize: isMobile ? '0.92rem' : '1rem',
+        width: isMobile ? '97%' : isTablet ? '92%' : '80%',
+        textAlign: 'center',
+        marginTop: isMobile ? '5px' : '10px',
+        mx: 'auto',
+      }}>
+        <ReactTyped
+          strings={[
+            "<span style='font-weight:bold; color:black'>Programmer fluent in C/C++, JavaScript, Java, and more, with a keen eye for design. Let's build something amazing together!!</span>"
+          ]}
+          typeSpeed={38}
+        />
+      </Box>
 
-            <Box sx={{
-                // fontWeight : 'bold'
-                fontSize: '1.3rem',
-                fontFamily: 'monospace',
-                marginTop: '10px'
-            }}>
-                <span>I'am </span>
-                <ReactTyped strings={[
-                    "<span style='font-weight : bold; color : #FC6736'>Programmer!</span>",
-                    "<span style='font-weight : bold; color : #FC6736'>Web developer!</span>",
-                    "<span style='font-weight : bold; color : #FC6736'>Designer!</span>",
-                    "<span style='font-weight : bold; color : #FC6736'>Database Engineer!</span>",
-                ]}
-                    typeSpeed={120}
-                    loop
-                />
-            </Box>
-
-            <Box sx={{
-                // fontWeight : 'bold'
-                fontSize: '1rem',
-                // fontFamily: 'monospace'
-                width: '80%',
-                textAlign: 'center ',
-                marginTop: '10px'
-            }}>
-
-                <ReactTyped strings={[
-                    "<span style='font-weight : bold; color : black'>Programmer fluent in C/C++, JavaScript, Java, and more, with a keen eye for design. Let's build something amazing together!!</span>"
-                ]}
-                    typeSpeed={40}
-
-                />
-            </Box>
-            <Box mt={1}>
-                <img src={fb} alt="" width={20} style={{ margin: '0px 5px', cursor: 'pointer' }} />
-                <img src={insta} alt="" width={20} style={{ cursor: 'pointer' }} />
-                <img src={twitter} alt="" width={20} style={{ margin: '0px 5px', cursor: 'pointer' }} />
-                <img src={email} alt="" width={20} style={{ cursor: 'pointer' }} />
-            </Box>
-
-
-
-            {/* <ReactTyped
-                strings={[
-                    "Search for products",
-                    "Search for categories",
-                    "Search for brands",
-                ]}
-                typeSpeed={40}
-                backSpeed={50}
-                
-                loop
-           /> */}
-
-
-        </Container>
-    )
+      {/* Social Icons */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: isMobile ? 1 : 1.5,
+          mt: isMobile ? 1 : 2
+        }}
+      >
+        <img src={fb} alt="Facebook" width={isMobile ? 22 : 24} style={{ margin: '0 5px', cursor: 'pointer' }} />
+        <img src={insta} alt="Instagram" width={isMobile ? 22 : 24} style={{ cursor: 'pointer' }} />
+        <img src={twitter} alt="Twitter" width={isMobile ? 22 : 24} style={{ margin: '0 5px', cursor: 'pointer' }} />
+        <img src={email} alt="Email" width={isMobile ? 22 : 24} style={{ cursor: 'pointer' }} />
+      </Box>
+    </Container>
+  )
 }
 
 export default Home

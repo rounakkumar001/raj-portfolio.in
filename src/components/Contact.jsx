@@ -61,7 +61,7 @@ const Contact = () => {
         setLoading(true)
         e.preventDefault();
 
-        emailjs.sendForm('service_oa54vxb', 'template_z234usj', e.target, 'vjnl8FC1Cm6V-pHxO')
+        emailjs.sendForm('service_n4dx05a', 'template_shtugeo', e.target, 'PhHvFW8BZ2cXHwMPq')
             .then((result) => {
                 console.log(result.text);
                 // Optionally, you can reset the form after successful submission
@@ -86,7 +86,7 @@ const Contact = () => {
     };
 
     return (
-        <Box mt={7} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Box id="contact"  mt={7} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Dialog open={successMail}>
                 <Box sx={{ display: 'flex', alignItems: 'center', bgcolor: '#000000' }}>
                     <Box sx={{ width: '200px' }}>

@@ -1,139 +1,190 @@
 import React from 'react';
-import Lottie from 'lottie-react'
+import Lottie from 'lottie-react';
+import { Box, Typography, Paper, useTheme } from '@mui/material';
+import { Star, StarHalf, StarBorder } from '@mui/icons-material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Star, StarHalf, StarBorder } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
-import Dp from '../img/dp.json'
-import slides from './testimonial-slides-data';
+// Replace with your real Lottie file
+import Dp from '../img/dp.json';
 
+// ----- Testimonial Data:  --------
+const testimonials = [
+    {
+        name: "Arjun Patel",
+        rating: 4.5,
+        title: "Creative Visionary",
+        message: "Had an outstanding experience—prompt responses and creative solutions!",
+    },
+    {
+        name: "Priya Gupta",
+        rating: 5,
+        title: "Brand Builder",
+        message: "Absolutely exceeded my expectations! I loved the communication and attention to detail.",
+    },
+    {
+        name: "Devansh Mehra",
+        rating: 4,
+        title: "Problem Solver",
+        message: "Went above and beyond to handle a tricky project requirement. Highly reliable!",
+    },
+    {
+        name: "Sara Fernandes",
+        rating: 4.5,
+        title: "UI/UX Expert",
+        message: "Wonderful taste, and a delight to work with. Highly recommended!",
+    },
+    {
+        name: "Amit Bhargava",
+        rating: 4,
+        title: "Efficiency Expert",
+        message: "Streamlined our workflow and helped us achieve more in less time.",
+    },
+    {
+        name: "Rohit Malhotra",
+        rating: 3.5,
+        title: "Dependable Partner",
+        message: "A pleasure to collaborate with, always on time.",
+    },
+    // Add as many as you need!
+];
 
-const img = 'https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
+// ----- Group testimonials into chunks of 3: -----
+function groupByRows(data, n = 3) {
+    const res = [];
+    for (let i = 0; i < data.length; i += n) {
+        res.push(data.slice(i, i + n));
+    }
+    return res;
+}
 
-
-
-const Testimonial = () => {
-
+export default function TestimonialCarousel() {
+    const theme = useTheme();
+    const testimonialRows = groupByRows(testimonials, 3);
 
     return (
-        <>
-            <Box mt={7} mb={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <Typography sx={{ fontWeight: 'bold', fontSize: '1.4rem', color: '#0c2c57ff' }}>Testimonial</Typography>
-                <Typography sx={{ fontWeight: 'bold', fontSize: '1rem', color: 'grey' }}>My client saying</Typography>
+        <Box
+            sx={{
+                mt: 7, mb: 6, px: 2,
+                maxWidth: 1200, mx: 'auto', textAlign: 'center'
+            }}
+        >
+            <Typography variant="h5" fontWeight={700} color="#0c2c57" mb={1}>
+                Testimonials
+            </Typography>
+            <Typography variant="subtitle1" fontWeight={500} color="grey.600" mb={3}>
+                My client saying
+            </Typography>
 
-            </Box>
             <Carousel
-                autoPlay={true}
-                interval={3000} // 1 second interval
-                infiniteLoop={true} // Enable infinite looping
-                showArrows={false}
+                autoPlay
+                interval={3900}
+                infiniteLoop
+                showArrows
                 showStatus={false}
-                showIndicators={false}
+                showIndicators
                 showThumbs={false}
-                emulateTouch={true}
-                centerMode={true}
-                renderArrowPrev={(clickHandler, hasPrev) => hasPrev && <button onClick={clickHandler}>Previous</button>}
-                renderArrowNext={(clickHandler, hasNext) => hasNext && <button onClick={clickHandler}>Next</button>}
+                emulateTouch
+                swipeable
+                renderIndicator={(onClickHandler, isSelected, index, label) => (
+                    <span
+                        key={index}
+                        style={{
+                            display: 'inline-block',
+                            width: 8, height: 8, borderRadius: 24, margin: '0 5px',
+                            background: isSelected ? theme.palette.primary.main : '#eee', transition: 'background 0.18s'
+                        }}
+                        onClick={onClickHandler}
+                        onKeyDown={onClickHandler}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`${label} ${index + 1}`}
+                    />
+                )}
             >
-                {slides.map((slide, index) => (
-                    <div key={index}>
-                        <div style={slideContainerStyle}>
-                            {slide.map((card, cardIndex) => (
-                                <div key={cardIndex} style={cardStyle}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        {/* <img src={card.imageUrl} alt={`Slide ${index + 1}`} style={imageStyle} /> */}
-                                        <Box sx={{ width: '70px' }}>
-                                            <Lottie animationData={Dp} loop />
-                                        </Box>
-                                        <Box>
-                                            <Typography sx={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#0c2c57' }}>{card.name}</Typography>
-                                            {
-                                                card.rating === 2 ?
-                                                    <Box>
-                                                        <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                        <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                        <StarBorder sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                        <StarBorder sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                        <StarBorder sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                    </Box>
-                                                    :
-                                                    (card.rating === 3) ?
-                                                        <Box>
-                                                            <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                            <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                            <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                            <StarBorder sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                            <StarBorder sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                        </Box>
-                                                        :
-                                                        (card.rating === 4) ?
-                                                            <Box>
-                                                                <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                <StarBorder sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                            </Box>
-                                                            :
-                                                            (card.rating === 4.5) ?
-                                                                <Box>
-                                                                    <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                    <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                    <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                    <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                    <StarHalf sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                </Box>
-                                                                : (card.rating === 5) ?
-                                                                    <Box>
-                                                                        <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                        <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                        <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                        <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                        <Star sx={{ fontSize: '.8rem', color: '#fc6736' }} />
-                                                                    </Box> :
-                                                                    null
-                                            }
-
-                                        </Box>
-                                    </Box>
-                                    <Typography sx={{ textAlign: 'left', fontSize: '.9rem' }}>"{card.message}"</Typography>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                {testimonialRows.map((row, slideIdx) => (
+                    <Box
+                        key={slideIdx}
+                        sx={{
+                            display: 'flex',
+                            gap: { xs: 1, md: 2 },
+                            justifyContent: 'center',
+                            flexWrap: 'wrap',
+                            py: 1,
+                        }}
+                    >
+                        {row.map((person, i) => (
+                            <Paper
+                                key={i}
+                                elevation={3}
+                                sx={{
+                                    flex: '1 1 260px',
+                                    minWidth: 230,
+                                    maxWidth: 340,
+                                    borderRadius: 3,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    gap: 0,
+                                    background: '#fff',
+                                    px: 3,
+                                    py: 4,
+                                    transition: 'box-shadow 0.3s, transform 0.3s',
+                                    '&:hover': {
+                                        boxShadow: theme.shadows[6],
+                                        transform: 'translateY(-4px) scale(1.03)',
+                                    },
+                                    mx: { xs: 'auto', md: 0 }
+                                }}
+                            >
+                                <Box sx={{ width: 68, height: 68 }}>
+                                    <Lottie animationData={Dp} style={{ height: 68, width: 68 }} loop />
+                                </Box>
+                                <Typography
+                                    fontWeight={700}
+                                    variant="subtitle1"
+                                    color="#0c2c57"
+                                    sx={{ mt: 0.5, mb: 0 }}
+                                >
+                                    {person.name}
+                                </Typography>
+                                <Typography variant="subtitle2" color="grey.700" sx={{ mt: 0.1, mb: 0 }}>
+                                    {person.title}
+                                </Typography>
+                                <Stars rating={person.rating} />
+                                <Typography
+                                    variant="body2"
+                                    color="grey.800"
+                                    fontStyle="italic"
+                                    lineHeight={1.5}
+                                    sx={{ mt: 1.2, fontSize: '1.01rem' }}
+                                >
+                                    &ldquo;{person.message}&rdquo;
+                                </Typography>
+                            </Paper>
+                        ))}
+                    </Box>
                 ))}
-
             </Carousel>
-            <Box id={"contact"}></Box>
-        </>
+        </Box>
     );
-};
+}
 
-const slideContainerStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-};
-
-const cardStyle = {
-    flex: '0 0 30%', // Adjust card width as needed (33.33% to display three cards per row)
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    padding: '20px',
-    textAlign: 'center',
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-    boxSizing: 'border-box',
-    margin: '0 5px', // Adjust card margin as needed
-    transition: 'transform 0.3s ease', // Transition effect
-    '&:hover': {
-        transform: 'scale(1.05)' // Scale up on hover
+// Modular star rendering
+function Stars({ rating }) {
+    const stars = [];
+    let rem = rating;
+    for (let i = 0; i < 5; i++) {
+        if (rem >= 1) {
+            stars.push(<Star key={i} sx={{ color: "#fc6736", fontSize: "1.09rem" }} />);
+            rem -= 1;
+        } else if (rem >= 0.5) {
+            stars.push(<StarHalf key={i} sx={{ color: "#fc6736", fontSize: "1.09rem" }} />);
+            rem -= 0.5;
+        } else {
+            stars.push(<StarBorder key={i} sx={{ color: "#fc6736", fontSize: "1.09rem" }} />);
+        }
     }
-};
-
-const imageStyle = {
-    width: '80px',
-    height: '80px',
-    // marginBottom: '10px',
-};
-
-export default Testimonial;
+    return (
+        <Box sx={{ display: 'flex', gap: 0.3, justifyContent: 'center' }}>{stars}</Box>
+    );
+}
