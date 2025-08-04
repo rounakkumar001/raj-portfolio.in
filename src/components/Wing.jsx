@@ -5,7 +5,11 @@ import MyWing from '../img/wing.json'
 const Wing = () => {
   return (
 
-    <Box sx={{position : 'absolute', bottom : 0}}>
+    <Box sx={{
+      position : 'absolute',
+      left : '50%',
+      transform : 'translateX(-50%)'
+    }}>
         <Lottie animationData={MyWing} loop />
     </Box>
 
